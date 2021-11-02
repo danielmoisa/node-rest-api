@@ -25,15 +25,20 @@
   },
   "dependencies": {
     "@foal/core": "^2.0.0",
+    "@foal/jwt": "^2.6.0",
     "@foal/swagger": "^2.6.0",
     "@foal/typeorm": "^2.0.0",
     "better-sqlite3": "~7.1.2",
+    "jsonwebtoken": "^8.5.1",
+    "nodemailer": "^6.7.0",
     "source-map-support": "~0.5.19",
     "typeorm": "0.2.26"
   },
   "devDependencies": {
+    "@types/jsonwebtoken": "^8.5.5",
     "@types/mocha": "7.0.2",
     "@types/node": "10.17.24",
+    "@types/nodemailer": "^6.4.4",
     "@typescript-eslint/eslint-plugin": "~2.7.0",
     "@typescript-eslint/parser": "~2.7.0",
     "concurrently": "~5.3.0",
