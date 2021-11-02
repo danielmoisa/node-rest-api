@@ -2,7 +2,7 @@ import { ApiInfo, ApiServer, Context, controller, Get, HttpResponseOK, UseSessio
 import { fetchUser } from '@foal/typeorm';
 import { UsersController } from '.';
 import { User } from '../entities';
-import { AuthController, ClientsController } from './api';
+import { AuthController, CampaignController, ClientsController } from './api';
 
 @ApiInfo({
   title: 'Application API - Updigital',
@@ -20,7 +20,8 @@ export class ApiController {
   subControllers = [
     controller('/clients', ClientsController),
     controller('/auth', AuthController),
-    controller('/users', UsersController)
+    controller('/users', UsersController),
+    controller('/campaigns', CampaignController)
   ];
 
 
