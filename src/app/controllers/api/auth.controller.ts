@@ -1,4 +1,4 @@
-import { Context, dependency, Get, hashPassword, HttpResponseNoContent, HttpResponseOK, HttpResponseUnauthorized, Post, Session, ValidateBody, verifyPassword } from '@foal/core';
+import { ApiUseTag, Context, dependency, Get, hashPassword, HttpResponseNoContent, HttpResponseOK, HttpResponseUnauthorized, Post, Session, ValidateBody, verifyPassword } from '@foal/core';
 import { User } from '../../entities';
 import { getSecretOrPrivateKey } from '@foal/jwt';
 import { sign } from 'jsonwebtoken';
@@ -25,7 +25,7 @@ const signupSchema = {
   required: ['email', 'password', 'firstName', 'lastName'],
   additionalProperties: false,
 };
-
+@ApiUseTag('auth')
 export class AuthController {
   @dependency
   mailService: MailService
