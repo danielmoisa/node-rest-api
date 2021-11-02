@@ -1,5 +1,6 @@
 // import { hashPassword } from '@foal/core';
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Client } from '.';
 
 // export enum UserRole {
 //   SUPERADMIN = 'superadmin',
@@ -43,6 +44,9 @@ export class User extends BaseEntity {
 
   @Column({ unique: true })
   emailConfirmationCode: string;
+
+  @OneToMany(() => Client, client => client.user)
+  clients: Client[];
 
   // async setPassword(password: string) {
   //   this.password = await hashPassword(password);
