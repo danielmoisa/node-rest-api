@@ -6,7 +6,7 @@ import { ApiController, OpenapiController, UsersController } from './controllers
 export class AppController implements IAppController {
   subControllers = [
     controller('/api', ApiController),
-    controller('/openapi', OpenapiController),
+    controller('/swagger', OpenapiController),
     controller('/user', UsersController)
   ];
 

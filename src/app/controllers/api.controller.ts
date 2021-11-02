@@ -1,6 +1,6 @@
 import { ApiInfo, ApiServer, Context, controller, Get, HttpResponseOK, UseSessions } from '@foal/core';
 import { fetchUser } from '@foal/typeorm';
-import { OpenapiController, UsersController } from '.';
+import { UsersController } from '.';
 import { User } from '../entities';
 import { AuthController, ClientsController } from './api';
 
@@ -19,7 +19,6 @@ import { AuthController, ClientsController } from './api';
 export class ApiController {
   subControllers = [
     controller('/clients', ClientsController),
-    controller('/swagger', OpenapiController),
     controller('/auth', AuthController),
     controller('/users', UsersController)
   ];
