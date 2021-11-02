@@ -1,18 +1,8 @@
-import { Context, Get, hashPassword, HttpResponseNoContent, HttpResponseOK, HttpResponseUnauthorized, Post, Session, ValidateBody, ValidateQueryParam, verifyPassword } from '@foal/core';
+import { Context, dependency, Get, hashPassword, HttpResponseNoContent, HttpResponseOK, HttpResponseUnauthorized, Post, Session, ValidateBody, verifyPassword } from '@foal/core';
 import { User } from '../../entities';
-import { decode, sign } from 'jsonwebtoken';
 import { getSecretOrPrivateKey } from '@foal/jwt';
-import * as nodemailer from 'nodemailer';
-
-
-const transport = nodemailer.createTransport({
-  host: 'smtp.mailtrap.io',
-  port: 2525,
-  auth: {
-    user: '9f587adeb63f47',
-    pass: 'aba6166d9771c6'
-  }
-});
+import { SendVerifyMail } from '../../services';
+import { sign } from 'jsonwebtoken';
 
 
 const credentialsSchema = {
@@ -38,6 +28,8 @@ const signupSchema = {
 };
 
 export class AuthController {
+  @dependency
+  sendVerifyMail: SendVerifyMail
 
   @Post('/signup')
   @ValidateBody(signupSchema)
@@ -50,30 +42,21 @@ export class AuthController {
 
     const user = new User();
     user.email = email;
-    user.firstName = firstName;
-    user.lastName = lastName;
-    user.password = await hashPassword(password);
-
     const token = sign(
       { email: user.email },
       getSecretOrPrivateKey(),
     );
 
+    user.firstName = firstName;
+    user.lastName = lastName;
+    user.password = await hashPassword(password);
     user.emailConfirmationCode = token;
     await user.save();
 
     ctx.session.setUser(user);
     ctx.user = user;
 
-    // send mail with defined transport object
-    await transport.sendMail({
-      from: '"Fred Foo 👻" <foo@example.com>', // sender address
-      to: 'bar@example.com, baz@example.com', // list of receivers
-      subject: 'Hello ✔', // Subject line
-      text: 'Hello world?', // plain text body
-      // eslint-disable-next-line @typescript-eslint/quotes
-      html: `<b>Activate account: <a href="http://localhost:3001/api/auth/verify/${token}">here</a></b>`, // html body
-    });
+    this.sendVerifyMail.send(token, user);
 
     return new HttpResponseOK({
       id: user.id,
@@ -117,7 +100,6 @@ export class AuthController {
     // console.log('decoded token', decodedToken)
 
     let queryBuilder = User.createQueryBuilder('user');
-
 
     if (code) {
       queryBuilder = queryBuilder.where('user.emailConfirmationCode = :code', { code });
