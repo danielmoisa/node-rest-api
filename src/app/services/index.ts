@@ -1,1 +1,1 @@
-export { SendVerifyMail } from './send-verify-mail.service';
+export { MailService } from './mail.service';

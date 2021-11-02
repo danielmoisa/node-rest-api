@@ -1,9 +1,8 @@
 import { Context, dependency, Get, hashPassword, HttpResponseNoContent, HttpResponseOK, HttpResponseUnauthorized, Post, Session, ValidateBody, verifyPassword } from '@foal/core';
 import { User } from '../../entities';
 import { getSecretOrPrivateKey } from '@foal/jwt';
-import { SendVerifyMail } from '../../services';
 import { sign } from 'jsonwebtoken';
-
+import { MailService } from '../../services';
 
 const credentialsSchema = {
   type: 'object',
@@ -29,7 +28,7 @@ const signupSchema = {
 
 export class AuthController {
   @dependency
-  sendVerifyMail: SendVerifyMail
+  mailService: MailService
 
   @Post('/signup')
   @ValidateBody(signupSchema)
@@ -38,7 +37,6 @@ export class AuthController {
     const password = ctx.request.body.password;
     const firstName = ctx.request.body.firstName;
     const lastName = ctx.request.body.lastName;
-
 
     const user = new User();
     user.email = email;
@@ -56,7 +54,7 @@ export class AuthController {
     ctx.session.setUser(user);
     ctx.user = user;
 
-    this.sendVerifyMail.send(token, user);
+    this.mailService.verifyEmail(token, user);
 
     return new HttpResponseOK({
       id: user.id,

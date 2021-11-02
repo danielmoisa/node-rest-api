@@ -10,8 +10,8 @@ const transport = nodemailer.createTransport({
     }
 });
 
-export class SendVerifyMail {
-    async send(token: string, user: User) {
+export class MailService {
+    async verifyEmail(token: string, user: User) {
 
         // send mail with defined transport object
         await transport.sendMail({
@@ -21,4 +21,15 @@ export class SendVerifyMail {
             html: `<b>Hi ${user.firstName}, follow this link to activate account your account: <a href="http://localhost:3001/api/auth/verify/${token}">click</a></b>`, // html body
         });
     }
+
+    // async resetPasswordEmail(token: string, user: User) {
+
+    //     // send mail with defined transport object
+    //     await transport.sendMail({
+    //         from: '"Updigital.ro" <admin@updigital.ro>', // sender address
+    //         to: `${user.email}`, // list of receivers
+    //         subject: 'Confirm email address', // Subject line
+    //         html: `<b>Hi ${user.firstName}, follow this link to activate account your account: <a href="http://localhost:3001/api/auth/verify/${token}">click</a></b>`, // html body
+    //     });
+    // }
 }
