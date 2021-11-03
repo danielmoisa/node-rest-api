@@ -8,6 +8,7 @@ import { AuthController, CampaignController } from './api';
   title: 'Application API - Updigital',
   version: '1.0.0'
 })
+
 @ApiServer({
   url: '/api'
 })
@@ -16,6 +17,7 @@ import { AuthController, CampaignController } from './api';
   cookie: true,
   user: fetchUser(User),
 })
+
 export class ApiController {
   subControllers = [
     controller('/auth', AuthController),

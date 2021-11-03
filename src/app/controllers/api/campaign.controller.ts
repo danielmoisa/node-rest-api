@@ -2,7 +2,7 @@ import {
   ApiOperationDescription, ApiOperationId, ApiOperationSummary, ApiResponse,
   ApiUseTag, Context, Delete, Get, HttpResponseCreated,
   HttpResponseNoContent, HttpResponseNotFound, HttpResponseOK, Patch, Post,
-  Put, ValidateBody, ValidatePathParam, ValidateQueryParam
+  Put, UserRequired, ValidateBody, ValidatePathParam, ValidateQueryParam
 } from '@foal/core';
 import { getRepository } from 'typeorm';
 
@@ -13,11 +13,12 @@ const campaignSchema = {
   properties: {
     text: { type: 'string', maxLength: 255 },
   },
-  required: [ 'text' ],
+  required: ['text'],
   type: 'object',
 };
 
 @ApiUseTag('campaign')
+@UserRequired()
 export class CampaignController {
 
   @Get()

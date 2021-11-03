@@ -1,7 +1,8 @@
-import { ApiUseTag, Context, Get, HttpResponseOK } from '@foal/core';
+import { ApiUseTag, Context, Get, HttpResponseOK, UserRequired } from '@foal/core';
 import { User } from '../../entities';
 
 @ApiUseTag('user')
+@UserRequired()
 export class UsersController {
 
   @Get()
