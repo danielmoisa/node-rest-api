@@ -5,7 +5,7 @@ import { User } from '../entities';
 import { AuthController, CampaignController } from './api';
 
 @ApiInfo({
-  title: 'Application API - Updigital',
+  title: 'Application API',
   version: '1.0.0'
 })
 

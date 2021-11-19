@@ -3,7 +3,10 @@
   "settings": {
     "loggerFormat": "tiny",
     "session": {
-      "store": "@foal/typeorm"
+      "store": "@foal/typeorm",
+      "csrf": {
+        "enabled": true
+      }
     },
     "jwt": {
       "secret": "env(SETTINGS_JWT_SECRET)",
